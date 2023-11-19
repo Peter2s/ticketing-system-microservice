@@ -10,7 +10,7 @@ spec:
     - host: ticketing.kubernetes.io
       http:
         paths:
-          - path: /api/users/user
+          - path: /
             pathType: Prefix
             backend:
               service:
