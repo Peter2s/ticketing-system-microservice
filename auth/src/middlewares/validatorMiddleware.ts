@@ -1,4 +1,5 @@
 import {NextFunction} from "express";
+import {RequestValidationErrors} from "../errors/RequestValidationErrors";
 
 const { validationResult } = require("express-validator");
 /*
@@ -7,10 +8,9 @@ const { validationResult } = require("express-validator");
 export  const  validatorMiddleware = (req:Request, res:Response, next:NextFunction): void=> {
     const errors = validationResult(req);
     if (!errors.isEmpty())
-    { // @ts-ignore
-        return res.status(400).json({ errors: errors.array() });
+    {
+       next(new  RequestValidationErrors(errors.array()));
     }
 
     next();
 };
-;
