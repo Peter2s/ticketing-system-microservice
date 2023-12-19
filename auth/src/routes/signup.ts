@@ -1,16 +1,11 @@
-import express, {request} from "express";
-// @ts-ignore
-import {singUpValidator} from  "../validators/authValidators";
+import express from "express";
+import {singUpAndSignInValidator} from  "../validators/authValidators";
+import {signUpController} from "../controllers/authController";
 
 const router = express.Router();
 
 // @ts-ignore
-router.post('/api/users/signup',singUpValidator, (req:request, res:Response) => {
-    const {email, password} = req.body;
-    console.log(email , password);
-    // @ts-ignore
-    res.json({email, password});
-})
+router.post('/api/users/signup',singUpAndSignInValidator, signUpController);
 
 export default router
 

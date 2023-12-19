@@ -1,10 +1,11 @@
 import express from "express";
+import {singUpAndSignInValidator} from "../validators/authValidators";
+import {SignInController} from "../controllers/authController";
 
 const router = express.Router();
 
-router.post('/api/users/signin', (req, res) => {
-    res.send("hello");
-})
+// @ts-ignore
+router.post('/api/users/signin',singUpAndSignInValidator , SignInController)
 
 export default router
 

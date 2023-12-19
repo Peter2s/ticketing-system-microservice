@@ -1,7 +1,7 @@
 import {check} from "express-validator";
 import {validatorMiddleware} from "../middlewares/validatorMiddleware"
 
-export const singUpValidator = [
+export const singUpAndSignInValidator = [
     check("email")
         .notEmpty()
         .withMessage("user email required")
