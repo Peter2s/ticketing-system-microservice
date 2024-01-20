@@ -1,4 +1,4 @@
-import {Request,Response,NextFunction} from "express";
+import {NextFunction, Request, Response} from "express";
 import jwt from "jsonwebtoken";
 
 interface IUserPayload {
@@ -17,8 +17,7 @@ export  const currentUserMiddleware = (req:Request,res:Response,next:NextFunctio
        return next();
 
     try{
-        const payload =   jwt.verify(req.session?.jwt,process.env.JWT_KEY!) as IUserPayload;
-        req.currentUser = payload;
+        req.currentUser = jwt.verify(req.session?.jwt, process.env.JWT_KEY!) as IUserPayload;
         next();
     }catch (err){
         next();

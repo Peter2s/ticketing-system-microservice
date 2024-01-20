@@ -18,13 +18,14 @@ export  const signUpController =  async (req:Request, res:Response) => {
     req.session = {jwt:userToken}
     res.status(201).json({ user})
 }
+
 export  const SignInController = async (req: Request, res: Response)=>{
     const {email,password} = req.body;
     const existingUser = await User.findOne({ email})
     if (!existingUser)
         throw new BasRequestError("User not exists");
 
-    const passwordMatch = Password.compare(password,existingUser.password);
+    const passwordMatch = await Password.compare(existingUser.password,password);
 
     if (!passwordMatch)
         throw new BasRequestError("Invalid password");
@@ -39,4 +40,7 @@ export  const  getCurrentUser = (req: Request, res: Response)   => {
     return  res.status(200).json({currentUser : req.currentUser || null})
 }
 export  const signOut = (req: Request, res: Response) => {
+
+    req.session = null;
+    res.status(200).json({})
 }
