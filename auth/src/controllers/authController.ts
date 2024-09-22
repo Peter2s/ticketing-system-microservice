@@ -1,5 +1,5 @@
 import {User} from "../models/User";
-import {BasRequestError} from "../errors/BasRequestError";
+import {BadRequestError} from "../errors/BadRequestError";
 import jwt from "jsonwebtoken"
 import {Password} from "../services/Password";
 import {Request,Response} from "express"
@@ -8,7 +8,7 @@ export  const signUpController =  async (req:Request, res:Response) => {
     const {email,password} = req.body;
     const existingUser = await User.findOne({ email})
     if (existingUser)
-        throw new BasRequestError("User already exists");
+        throw new BadRequestError("User already exists");
 
     const user =  await  User.build({ email, password});
     await user.save();
@@ -23,12 +23,12 @@ export  const SignInController = async (req: Request, res: Response)=>{
     const {email,password} = req.body;
     const existingUser = await User.findOne({ email})
     if (!existingUser)
-        throw new BasRequestError("User not exists");
+        throw new BadRequestError("User not exists");
 
     const passwordMatch = await Password.compare(existingUser.password,password);
 
     if (!passwordMatch)
-        throw new BasRequestError("Invalid password");
+        throw new BadRequestError("Invalid password");
 
     const userToken =   jwt.sign({ id:existingUser.id,email:existingUser.email },process.env.JWT_KEY!);
     req.session = {jwt:userToken}
