@@ -16,4 +16,12 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: /app
+    - image: peter2s/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: /app
 
